@@ -1,4 +1,4 @@
-import { JyotishChat } from "@/components/JyotishChat";
+import JyotishChat from "@/components/JyotishChat";
 
 export const metadata = {
   title: "🪐 Jyotish GPT — BPHS Scholar",

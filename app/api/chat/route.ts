@@ -44,7 +44,7 @@ Guidelines:
 
 // ── Route handler ──────────────────────────────────────────────────────────────
 export async function POST(req: NextRequest) {
-  const { message, language, sessionId } = await req.json();
+  const { message, language } = await req.json();
 
   if (!message?.trim()) {
     return new Response(JSON.stringify({ error: "Empty message" }), {
