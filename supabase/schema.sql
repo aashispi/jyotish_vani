@@ -20,19 +20,21 @@ create index on jyotish_chunks
   using gin (to_tsvector('english', content));
 
 -- RPC function used by chat API
-drop function if exists match_jyotish_chunks(vector, float, int, text[]);
-drop function if exists match_jyotish_chunks(vector, float, int);
+-- Drop all versions of the function first
+drop function if exists public.match_jyotish_chunks(vector, double precision, integer, text[]) cascade;
+drop function if exists public.match_jyotish_chunks(vector, double precision, integer) cascade;
 
-create or replace function match_jyotish_chunks(
+-- Create single version of the function
+create or replace function public.match_jyotish_chunks(
   query_embedding vector(768),
-  match_threshold float default 0.70,
-  match_count     int  default 8
+  match_threshold float8 default 0.70,
+  match_count     integer default 8
 )
 returns table (
   id       bigint,
   content  text,
   metadata jsonb,
-  similarity float
+  similarity float8
 )
 language sql stable
 as $$
