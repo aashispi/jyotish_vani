@@ -62,7 +62,9 @@ export async function POST(req: NextRequest) {
   const context = buildContext(chunks);
 
   // 3. Build prompt with retrieved context
-  const userPrompt = `CONTEXT FROM BPHS:
+  const userPrompt = `${SYSTEM_PROMPT}
+
+CONTEXT FROM BPHS:
 ${context}
 
 USER QUESTION: ${message}
@@ -76,11 +78,7 @@ Answer based only on the context above. Cite chapter/śloka when available.`;
       let fullAnswer = "";
 
       try {
-        const result = await llm.generateContentStream([
-          { role: "user", parts: [{ text: SYSTEM_PROMPT }] },
-          { role: "model", parts: [{ text: "Understood. I will answer only from BPHS context and cite ślokas." }] },
-          { role: "user", parts: [{ text: userPrompt }] },
-        ]);
+        const result = await llm.generateContentStream(userPrompt);
 
         // Stream English tokens
         for await (const chunk of result.stream) {
