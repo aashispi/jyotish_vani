@@ -12,6 +12,9 @@
  *  5. Stream back as SSE
  */
 
+// Configure Xenova cache for serverless (read-only filesystem)
+process.env.HF_HOME = "/tmp/.huggingface";
+
 import { NextRequest } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { retrieve, buildContext } from "@/lib/retriever";

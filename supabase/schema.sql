@@ -19,7 +19,10 @@ create index on jyotish_chunks
 create index on jyotish_chunks
   using gin (to_tsvector('english', content));
 
--- RPC function used by LlamaIndex / our API
+-- RPC function used by chat API
+drop function if exists match_jyotish_chunks(vector, float, int, text[]);
+drop function if exists match_jyotish_chunks(vector, float, int);
+
 create or replace function match_jyotish_chunks(
   query_embedding vector(768),
   match_threshold float default 0.70,

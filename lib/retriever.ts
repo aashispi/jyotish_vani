@@ -8,6 +8,9 @@
 import { createClient } from "@supabase/supabase-js";
 import { pipeline } from "@xenova/transformers";
 
+// Set Xenova to use memory cache only (Vercel serverless is read-only)
+process.env.HF_HOME = "/tmp/.huggingface";
+
 const supabase = createClient(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_KEY!
@@ -18,7 +21,9 @@ let embeddingPipeline: any = null;
 
 async function getEmbeddingPipeline() {
   if (!embeddingPipeline) {
-    embeddingPipeline = await pipeline("feature-extraction", "Xenova/all-mpnet-base-v2");
+    embeddingPipeline = await pipeline("feature-extraction", "Xenova/all-mpnet-base-v2", {
+      cache_dir: "/tmp/.huggingface/transformers",
+    });
   }
   return embeddingPipeline;
 }
@@ -52,11 +57,12 @@ export async function retrieve(
   const queryEmbedding = output.tolist()[0] as number[];
 
   // 2. Supabase RPC → pgvector cosine similarity search
+  // Note: explicitly call with null for optional filter_sources parameter
   const { data, error } = await supabase.rpc("match_jyotish_chunks", {
     query_embedding: queryEmbedding,
     match_threshold: threshold,
     match_count: topK,
-  });
+  } as any);
 
   if (error) throw new Error(`Supabase retrieval error: ${error.message}`);
 
