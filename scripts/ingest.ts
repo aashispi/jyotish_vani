@@ -14,10 +14,8 @@ import fs from "fs";
 import "dotenv/config";
 import { createClient } from "@supabase/supabase-js";
 import {
-  SimpleDirectoryReader,
   PDFReader,
   SentenceSplitter,
-  Document,
 } from "llamaindex";
 import { pipeline } from "@xenova/transformers";
 
