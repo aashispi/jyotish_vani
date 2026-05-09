@@ -7,7 +7,7 @@
  * Flow:
  *  1. Detect language (Sarvam)
  *  2. Retrieve top-k chunks (local Xenova embed → Supabase pgvector)
- *  3. Generate answer (Gemini 1.5 Flash)
+ *  3. Generate answer (Gemini Pro Latest)
  *  4. Translate response if Indian language requested (Sarvam)
  *  5. Stream back as SSE
  */
@@ -24,7 +24,7 @@ export const runtime = "nodejs";  // Node.js runtime required for Xenova embeddi
 
 const genai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 const llm = genai.getGenerativeModel({
-  model: "gemini-2.0-flash",     // Updated: cost-efficient; upgrade to Pro for complex queries
+  model: "gemini-pro-latest",     // Try latest pro model
   generationConfig: {
     temperature: 0.3,             // lower = more faithful to source
     maxOutputTokens: 1024,
