@@ -104,6 +104,9 @@ export default function JyotishChat() {
               if (parsed.type === "token") {
                 last.content = (last.content ?? "") + parsed.token;
                 last.loading = false;
+              } else if (parsed.type === "error") {
+                last.content = `❌ API Error: ${parsed.message}`;
+                last.loading = false;
               } else if (parsed.type === "translation") {
                 last.translation = parsed.text;
                 last.lang = parsed.lang;
