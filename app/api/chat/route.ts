@@ -24,7 +24,7 @@ export const runtime = "nodejs";  // Node.js runtime required for Xenova embeddi
 
 const genai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 const llm = genai.getGenerativeModel({
-  model: "gemini-1.5-flash",     // cost-efficient; upgrade to Pro for complex queries
+  model: "gemini-2.0-flash",     // Updated: cost-efficient; upgrade to Pro for complex queries
   generationConfig: {
     temperature: 0.3,             // lower = more faithful to source
     maxOutputTokens: 1024,

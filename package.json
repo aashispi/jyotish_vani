@@ -26,6 +26,7 @@
     "dotenv": "^17.4.2",
     "llamaindex": "^0.3.5",
     "next": "^14.0.0",
+    "onnxruntime-node": "^1.25.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
